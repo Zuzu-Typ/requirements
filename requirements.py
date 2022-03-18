@@ -20,7 +20,7 @@ class Version:
         match_ = VERSION_NUMBER_PATTERN.fullmatch(version_string)
 
         if not match_:
-            raise ValueError("Invalid version specifier")
+            raise ValueError("Invalid version specifier: {!r}".format(version_string))
 
         epoch, major, minors, wildcard, pre, post, dev = match_.groups()
 
@@ -242,8 +242,11 @@ for dist_info in site_packages_dist_infos:
     dash_pos = dist_info.rindex("-")
     version = dist_info[dash_pos + 1 : ]
     package_name = dist_info[:dash_pos]
-    
-    installed_packages[package_name] = Version(version)
+
+    try:
+        installed_packages[package_name] = Version(version)
+    except ValueError:
+        pass
 
 need_to_run = False
 
@@ -252,35 +255,40 @@ for package_name, operator, version_string in requirements:
         need_to_run = True
         break
 
-    version = Version(version_string)
+    if version_string:
+        try:
+            version = Version(version_string)
+        except ValueError:
+            need_to_run = True
+            break
 
-    if operator == "==" and not installed_packages[package_name] == version:
-        need_to_run = True
-        break
+        if operator == "==" and not installed_packages[package_name] == version:
+            need_to_run = True
+            break
 
-    if operator == "!=" and not installed_packages[package_name] != version:
-        need_to_run = True
-        break
+        if operator == "!=" and not installed_packages[package_name] != version:
+            need_to_run = True
+            break
 
-    if operator == ">=" and not installed_packages[package_name] >= version:
-        need_to_run = True
-        break
+        if operator == ">=" and not installed_packages[package_name] >= version:
+            need_to_run = True
+            break
 
-    if operator == "<=" and not installed_packages[package_name] <= version:
-        need_to_run = True
-        break
+        if operator == "<=" and not installed_packages[package_name] <= version:
+            need_to_run = True
+            break
 
-    if operator == ">" and not installed_packages[package_name] > version:
-        need_to_run = True
-        break
+        if operator == ">" and not installed_packages[package_name] > version:
+            need_to_run = True
+            break
 
-    if operator == "<" and not installed_packages[package_name] < version:
-        need_to_run = True
-        break
+        if operator == "<" and not installed_packages[package_name] < version:
+            need_to_run = True
+            break
 
-    if operator == "~=" and not installed_packages[package_name].compatible_with(version):
-        need_to_run = True
-        break
+        if operator == "~=" and not installed_packages[package_name].compatible_with(version):
+            need_to_run = True
+            break
 
 if need_to_run:
     install_command = "{} -m pip install -r {}".format(
