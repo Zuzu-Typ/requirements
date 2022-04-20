@@ -2,24 +2,40 @@
  Automatic requirements.txt installation
 
 ## Usage
-In order to use `requirements` to install your dependencies from `requirements.txt`, you only have to 
-```Python
-import requirements
+In order to use `requirements` to install your dependencies from `requirements.txt`, you only have to add this repository to yours as a submodule
+```Shell
+git submodule add https://github.com/Zuzu-Typ/requirements
 ```
 
-Additionaly you can specify the filepath using
+Then you can install all requirements from your `requirements.txt` file automatically as needed using
+```Python
+from requirements import requirements
+```
+
+Additionaly you can specify the filepath using:
 ```Python
 import os
 os.environ["PyPI_REQUIREMENTS_PATH"] = "/path/to/a/requirements.txt"
+
+[ ... ]
+
+from requirements import requirements
 ```
 
-and you can allow `requirements` to output messages from pip, like so:
+and you can disable the output of `pip` like so:
+```Python
+from requirements import silent, requirements
+```
+
+or alternatively:
 ```Python
 import os
-os.environ["PyPI_REQUIREMENTS_OUTPUT"] = "ON"
-```
+os.environ["PyPI_REQUIREMENTS_OUTPUT"] = "OFF"
 
-These lines must preceed the `import requirements` line though.
+[ ... ]
+
+from requirements import requirements
+```
 
 ## Example
 Let's say you need the modules `Pillow`, `winput` and `PyGLM` for your project.  
@@ -36,12 +52,16 @@ Then your main script might look something like this:
 ```Python
 import os
 
-# Let the user know what's going on:
-os.environ["PyPI_REQUIREMENTS_OUTPUT"] = "ON"
+# Uncomment this line to stop pip output (not advised, as the user doesn't know what's going on):
+# os.environ["PyPI_REQUIREMENTS_OUTPUT"] = "OFF"
+
+# Uncomment this line to specify a different filepath than the default relative "requirements.txt" file
+# os.environ["PyPI_REQUIREMENTS_PATH"] = "/path/to/a/requirements.txt"
 
 # The following line will install all required packages that can be found in the requirements.txt file.
 # It checks if it needs to run pip first (by looking at the installed packages in site-packages)
-# It raises an OSError if the file could not be found or when running as a binary executable.
+# It raises an IOError if the requirements file could not be found, the site-packages folder was missing
+# or when running as a binary executable.
 from requirements import requirements
 
 # Now the packages are available:
