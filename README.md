@@ -5,6 +5,7 @@
 In order to use `requirements` to install your dependencies from `requirements.txt`, you only have to add this repository to yours as a submodule
 ```Shell
 git submodule add https://github.com/Zuzu-Typ/requirements
+git submodule update --init --recursive
 ```
 
 Then you can install all requirements from your `requirements.txt` file automatically as needed using
