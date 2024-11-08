@@ -49,7 +49,7 @@ requirements = []
 
 for requirement_string in requirements_file_content:
     try:
-        requirements.append(Requirement(requirement_string.strip()))
+        requirements.append(Requirement(requirement_string.strip().lower().replace("-", "_")))
 
     except InvalidRequirement:
         pass
@@ -64,7 +64,7 @@ installed_packages = {}
 for dist_info_match in site_packages_dist_infos:
     if dist_info_match:
         try:
-            installed_packages[dist_info_match.group(1)] = parse_version(dist_info_match.group(2))
+            installed_packages[dist_info_match.group(1).lower().replace("-", "_")] = parse_version(dist_info_match.group(2))
         except ValueError:
             pass
 
