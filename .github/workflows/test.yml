@@ -64,6 +64,9 @@ jobs:
           "@ | Out-File -Encoding UTF8 requirements.txt
         if: runner.os == 'Windows'
 
+      - name: Install requirements
+        run: python -m requirements.requirements
+
       - name: Test requirements
-        run: python -c "from requirements import requirements; import numpy; import requests; assert numpy.array([1,2,3], dtype=numpy.float32).all(); assert requests.__version__ == '2.26.0'"
+        run: python -c "import numpy; import requests; assert numpy.array([1,2,3], dtype=numpy.float32).all(); assert requests.__version__ == '2.26.0'"
   
