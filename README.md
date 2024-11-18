@@ -1,6 +1,8 @@
 # requirements
  Automatic requirements.txt installation
 
+ [![Test requirements on linux, mac and windows](https://github.com/Zuzu-Typ/requirements/actions/workflows/test.yml/badge.svg)](https://github.com/Zuzu-Typ/requirements/actions/workflows/test.yml)
+
 ## Usage
 In order to use `requirements` to install your dependencies from `requirements.txt`, you only have to add this repository to yours as a submodule
 ```Shell
