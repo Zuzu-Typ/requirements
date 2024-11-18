@@ -65,5 +65,5 @@ jobs:
         if: runner.os == 'Windows'
 
       - name: Test requirements
-        run: python -c "from requirements import requirements; import numpy; import requests; assert numpy.array(); assert requests.__version__ == '2.26.0'"
+        run: python -c "from requirements import requirements; import numpy; import requests; assert numpy.array([1,2,3], dtype=numpy.float32); assert requests.__version__ == '2.26.0'"
   
