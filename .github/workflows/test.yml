@@ -10,7 +10,6 @@ jobs:
         os: [ubuntu-latest, macos-latest, windows-latest]
         python-version: ["3.9", "3.13"]
 
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       - uses: actions/checkout@v4
         with:
@@ -72,5 +71,5 @@ jobs:
         run: python -m requirements.requirements
 
       - name: Test requirements
-        run: python -c "import numpy; import requests; assert numpy.array([1,2,3], dtype=numpy.float32).all(); assert requests.__version__ == '2.26.0'"
+        run: python -c "from requirements import requirements; import numpy; import requests; assert numpy.array([1,2,3], dtype=numpy.float32).all(); assert requests.__version__ == '2.26.0'"
   
