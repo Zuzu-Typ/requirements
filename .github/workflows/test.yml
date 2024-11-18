@@ -64,6 +64,10 @@ jobs:
           "@ | Out-File -Encoding UTF8 requirements.txt
         if: runner.os == 'Windows'
 
+      - name: Show tree
+        run: tree /F
+        if: runner.os == 'Windows'
+
       - name: Install requirements
         run: python -m requirements.requirements
 
