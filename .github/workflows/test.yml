@@ -41,10 +41,6 @@ jobs:
 
           # Move directories except for 'requirements'
           Get-ChildItem -Directory | Where-Object { $_.Name -ne 'requirements' } | ForEach-Object { Move-Item -Path $_.FullName -Destination ".\requirements" -Force }
-          
-          # Verify structure
-          Get-ChildItem -Recurse . | Format-Table FullName, Mode
-          tree /F
         if: runner.os == 'Windows'
 
       - name: Set up Python ${{ matrix.python-version }}
@@ -70,10 +66,6 @@ jobs:
           numpy
           requests==2.26.0
           "@ | Out-File -Encoding UTF8 requirements.txt
-        if: runner.os == 'Windows'
-
-      - name: Show tree
-        run: tree /F
         if: runner.os == 'Windows'
 
       - name: Install requirements
