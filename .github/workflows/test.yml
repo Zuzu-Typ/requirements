@@ -36,7 +36,8 @@ jobs:
       - name: Move files to requirements directory (Windows)
         shell: powershell
         run: |
-          Get-ChildItem -Exclude requirements | ForEach-Object { Move-Item $_ -Destination requirements }
+          Get-ChildItem -File -Exclude requirements | ForEach-Object { Move-Item $_ -Destination requirements -Force }
+          Get-ChildItem -Directory -Exclude requirements | ForEach-Object { Move-Item $_ -Destination requirements -Force }
         if: runner.os == 'Windows'
 
       - name: Set up Python ${{ matrix.python-version }}
