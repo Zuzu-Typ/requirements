@@ -36,8 +36,13 @@ jobs:
       - name: Move files to requirements directory (Windows)
         shell: powershell
         run: |
-          Get-ChildItem -File -Exclude requirements | ForEach-Object { Move-Item $_ -Destination requirements -Force }
-          Get-ChildItem -Directory -Exclude requirements | ForEach-Object { Move-Item $_ -Destination requirements -Force }
+          # Move files to requirements directory
+          Get-ChildItem -File | ForEach-Object { Move-Item -Path $_.FullName -Destination ".\requirements" -Force }
+
+          # Move directories except for 'requirements'
+          Get-ChildItem -Directory | Where-Object { $_.Name -ne 'requirements' } | ForEach-Object { Move-Item -Path $_.FullName -Destination ".\requirements" -Force }
+          
+          # Verify structure
           Get-ChildItem -Recurse . | Format-Table FullName, Mode
           tree /F
         if: runner.os == 'Windows'
