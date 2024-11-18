@@ -38,6 +38,7 @@ jobs:
         run: |
           Get-ChildItem -File -Exclude requirements | ForEach-Object { Move-Item $_ -Destination requirements -Force }
           Get-ChildItem -Directory -Exclude requirements | ForEach-Object { Move-Item $_ -Destination requirements -Force }
+          Get-ChildItem -Recurse . | Format-Table FullName, Mode
         if: runner.os == 'Windows'
 
       - name: Set up Python ${{ matrix.python-version }}
